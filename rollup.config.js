@@ -4,7 +4,7 @@ import babel from "rollup-plugin-babel";
 import { terser } from "rollup-plugin-terser";
 
 export default {
-  input: ["src/aftership-card.ts"],
+  input: ["src/tracktry-card.ts"],
   output: {
     dir: "./dist",
     format: "es"

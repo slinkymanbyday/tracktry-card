@@ -1,8 +1,8 @@
 resources:
-  - url: http://127.0.0.1:5000/aftership-card.js
+  - url: http://127.0.0.1:5000/tracktry-card.js
     type: module
 views:
   - cards:
-      - type: custom:aftership-card
-        title: Aftership Card Development
-        entity: sensor.aftership
+      - type: custom:tracktry-card
+        title: Tracktry Card Development
+        entity: sensor.tracktry

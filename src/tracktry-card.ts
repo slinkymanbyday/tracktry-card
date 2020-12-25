@@ -2,28 +2,28 @@ import { LitElement, html, customElement, property, TemplateResult, css, CSSResu
 import { repeat } from 'lit-html/directives/repeat';
 import { HomeAssistant, forwardHaptic, fireEvent } from 'custom-card-helpers';
 
-import { AftershipCardConfig, Tracking } from './types';
+import { TracktryCardConfig, Tracking } from './types';
 import { actionHandler } from './action-handler-directive';
 import { CARD_VERSION } from './const';
 
 /* eslint no-console: 0 */
 console.info(
-  `%c  AFTERSHIP-CARD  \n%c  Version ${CARD_VERSION}   `,
+  `%c  TRACKTRY-CARD  \n%c  Version ${CARD_VERSION}   `,
   'color: orange; font-weight: bold; background: black',
   'color: white; font-weight: bold; background: dimgray',
 );
 
-@customElement('aftership-card')
-export class AftershipCard extends LitElement {
+@customElement('tracktry-card')
+export class TracktryCard extends LitElement {
   @property() public hass?: HomeAssistant;
-  @property() private _config?: AftershipCardConfig;
+  @property() private _config?: TracktryCardConfig;
 
-  public setConfig(config: AftershipCardConfig): void {
+  public setConfig(config: TracktryCardConfig): void {
     if (!config || !config.entity) {
       throw new Error('Invalid configuration');
     }
 
-    this._config = { title: 'Aftership', ...config };
+    this._config = { title: 'Tracktry', ...config };
   }
 
   public getCardSize(): number {
@@ -87,9 +87,6 @@ export class AftershipCard extends LitElement {
                     icon="mdi:truck-delivery"
                     .index=${index}
                     .item=${item}
-                    .title="Expected Delivery: ${item.expected_delivery
-                      ? new Date(item.expected_delivery).toDateString()
-                      : 'Unknown'}"
                     @action=${this._handleAction}
                     .actionHandler=${actionHandler({ hasHold: true })}
                   ></ha-icon>
@@ -99,15 +96,13 @@ export class AftershipCard extends LitElement {
                     ${item.name}
                   </div>
                   <div class="secondary">
-                    ${item.last_checkpoint && item.last_checkpoint.message ? item.last_checkpoint.message : ''}
-                    (${item.status})
+                    ${item.status_description ? item.status_description : item.tracking_number}
+                    (${item.location ? item.location : 'Location N/A'})
                   </div>
                 </paper-item-body>
                 <paper-item-body class="last">
                   <div style="text-transform: capitalize">
-                    ${item.last_checkpoint && item.last_checkpoint.location
-                      ? item.last_checkpoint.location
-                      : item.status}
+                    ${item.status}
                   </div>
                   <div class="secondary">
                     ${new Date(item.last_update).toDateString()}
@@ -136,11 +131,12 @@ export class AftershipCard extends LitElement {
                     ${item.name}
                   </div>
                   <div class="secondary">
-                    ${item.tracking_number} (${item.slug})
+                    ${item.status_description ? item.status_description : item.tracking_number}
+                    (${item.location ? item.location : 'Location N/A'})
                   </div>
                 </paper-item-body>
                 <paper-item-body class="last">
-                  <div>
+                  <div style="text-transform: capitalize">
                     ${item.status}
                   </div>
                   <div class="secondary">
@@ -233,7 +229,7 @@ export class AftershipCard extends LitElement {
     const slug = this._slug as any;
 
     if (this.hass && title && tracking && tracking.value && tracking.value.length > 0) {
-      this.hass.callService('aftership', 'add_tracking', {
+      this.hass.callService('tracktry', 'add_tracking', {
         tracking_number: tracking.value,
         title: title.value,
         slug: slug.value,
@@ -262,7 +258,7 @@ export class AftershipCard extends LitElement {
     }
 
     if (this.hass) {
-      this.hass.callService('aftership', 'remove_tracking', {
+      this.hass.callService('tracktry', 'remove_tracking', {
         tracking_number: item.tracking_number,
         slug: item.slug,
       });

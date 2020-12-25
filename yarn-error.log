@@ -28,9 +28,9 @@ Trace:
 
 npm manifest: 
   {
-      "name": "aftership-card",
+      "name": "tracktry-card",
       "version": "1.1.4",
-      "description": "Lovelace aftership-card",
+      "description": "Lovelace tracktry-card",
       "keywords": [
           "home-assistant",
           "homeassistant",
@@ -38,10 +38,10 @@ npm manifest:
           "automation",
           "lovelace",
           "custom-cards",
-          "aftership"
+          "tracktry"
       ],
-      "module": "aftership-card.js",
-      "repository": "git@github.com:iantrich/aftership-card.git",
+      "module": "tracktry-card.js",
+      "repository": "git@github.com:iantrich/tracktry-card.git",
       "author": "Ian Richardson <iantrich@gmail.com>",
       "license": "MIT",
       "dependencies": {
